@@ -39,4 +39,22 @@ SELECT CONCAT ( [FirstName], ' ', [MiddleName], ' ', [LastName])
 SELECT [FirstName], [LastName] FROM [Employees]
 	WHERE [ManagerID] IS NULL
 
+--Problem 12
+SELECT [FirstName], [LastName], [Salary] FROM [Employees]
+	WHERE [Salary] > 50000
+	ORDER BY [Salary] DESC
+
+--Problem 13
+SELECT TOP 5 [FirstName], [LastName] FROM Employees
+	ORDER BY [Salary] DESC
+
+--Problem 14
+SELECT [FirstName], [LastName] FROM Employees
+	WHERE [DepartmentID] != 4
+
+--Problem 15
+	SELECT * FROM [Employees]
+	ORDER BY [Salary] DESC, [FirstName] ASC, [LastName] DESC, [MiddleName] ASC
+
 SELECT * FROM [Employees]
+
