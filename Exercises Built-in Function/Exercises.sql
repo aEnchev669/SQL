@@ -47,7 +47,91 @@ SELECT [TownID], [Name]
 	WHERE [Name] NOT LIKE '[RBD]%'
 	ORDER BY [Name]
 
+	
+---- Problem 8
+CREATE VIEW  [V_EmployeesHiredAfter2000]
+	AS SELECT [FirstName], [LastName]
+	FROM [Employees]
+	WHERE DATEPART(YEAR, [HireDate]) > 2000
+
+---- Problem 9
+SELECT [FirstName], [LastName] 
+	FROM [Employees]
+	WHERE LEN([LastName]) = 5
+
+---- Problem 10
+SELECT [EmployeeID],
+	   [FirstName],
+	   [LastName],
+	   [Salary],
+	   DENSE_RANK() OVER(PARTITION BY [Salary]  ORDER BY [EmployeeID]) 
+	   AS [RANK]
+  FROM [Employees]
+  WHERE [Salary] BETWEEN 10000 AND 50000
+  ORDER BY [Salary] DESC
+
+---- Problem 11
+SELECT * 
+	FROM 
+	(	
+	SELECT [EmployeeID],
+	   [FirstName],
+	   [LastName],
+	   [Salary],
+	   DENSE_RANK() OVER(PARTITION BY [Salary]  ORDER BY [EmployeeID]) 
+	   AS [RANK]
+  FROM [Employees]
+  WHERE [Salary] BETWEEN 10000 AND 50000
+	) AS [RankingSubquery]
+	WHERE [Rank] = 2
+	ORDER BY [Salary] DESC
 
 
 
+	USE [Geography]
 
+	GO
+---- Problem 12
+	SELECT [CountryName]
+		AS [Country Name], 
+		   [ISOCode]
+		AS [ISO Code]
+	  FROM [Countries]
+	 WHERE [CountryName] LIKE '%a%a%a%'
+	ORDER BY [ISO Code]
+
+---- Problem 13
+
+SELECT [p].[PeakName],
+       [r].[RiverName],
+	   LOWER(CONCAT(SUBSTRING([p].[PeakName], 1, LEN([p].[PeakName]) - 1),[r].[RiverName]))
+	   AS[Mix]
+  FROM [Peaks]
+    AS [p],
+	   [Rivers]
+	AS [r]
+	WHERE RIGHT(LOWER([p].[PeakName]), 1) = LEFT(LOWER([r]. [RiverName]),1)
+	ORDER BY [Mix]
+
+---- Problem 14
+	USE [Diablo]
+
+	SELECT TOP(50)
+		   [Name], 
+    FORMAT([Start], 'yyyy-MM-dd') AS [Start]
+      FROM [Games]
+	 WHERE YEAR([Start]) IN (2011, 2012)
+	 ORDER BY [Start], [Name]
+
+---- Problem 15
+SELECT [Username],
+	   SUBSTRING([Email], CHARINDEX('@', [Email]) + 1, LEN([Email])- CHARINDEX('@', [Email]))
+	   AS [Email Provider]
+	   FROM [Users]
+	   ORDER BY [Email Provider], [Username] 
+
+---- Problem 16
+SELECT [Username],[IpAddress]
+	   FROM [Users]
+	   WHERE [IpAddress] LIKE '___.1%.%.___'
+	   ORDER BY [Username]
